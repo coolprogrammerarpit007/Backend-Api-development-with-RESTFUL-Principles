@@ -12,7 +12,14 @@ class StoryController extends Controller
      */
     public function index()
     {
-        return 'index data';
+        return response()->json([
+            'msg' => 'All data fetches successfully!',
+            'data' => [
+                'id' => 1,
+                'title' => 'Harry Potter and Philosopher Stone',
+                'author' => 'JK Rowling'
+            ]
+            ]);
     }
 
     /**
@@ -20,7 +27,13 @@ class StoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $data = $request->all(); -> will get all data in request
+        $data = $request->only('title','author'); #-> will only get selected data in request
+        return response()->json([
+            'msg' => 'data created successfully!',
+            'title' => $data['title'],
+            'author' => $data['author']
+        ])->setStatusCode(201);
     }
 
     /**
@@ -28,7 +41,14 @@ class StoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return response()->json([
+            'message' => 'Post fetched successfully!',
+            'data' => [
+                'id' => $id,
+                'title' => 'New Title',
+                'body' => 'Post Body'
+            ]
+            ])->header('test', 'Arpit')->setStatusCode(200);
     }
 
     /**
@@ -36,7 +56,20 @@ class StoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:35',
+            'author' => ['required','string','min:5']
+        ]);
+
+
+        }
+
+        return response()->json([
+            'msg' => 'data updated successfully',
+            'id' => $id,
+            'title' => $validated['title'],
+            'author' => $validated['author'],
+        ]);
     }
 
     /**
@@ -44,6 +77,6 @@ class StoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return response()->noContent();
     }
 }
