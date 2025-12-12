@@ -62,8 +62,6 @@ class StoryController extends Controller
         ]);
 
 
-        }
-
         return response()->json([
             'msg' => 'data updated successfully',
             'id' => $id,
