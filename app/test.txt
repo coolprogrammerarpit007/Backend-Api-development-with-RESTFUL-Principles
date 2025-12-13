@@ -1,0 +1,254 @@
+<!-- <?php
+// Online PHP compiler to run PHP program online
+// Print "Try programiz.pro" message
+
+// function add_numbers(int $num1,int $num2):int
+// {
+//     return $num1 + $num2;
+// }
+
+// $result = add_numbers(75,25);
+// print_r($result);
+
+
+// function increment(&$number)
+// {
+//     return $number++;
+// }
+
+// $a = 5;
+// $result = increment($a);
+// print_r($result);
+// print_r($result);
+// print_r($a);
+
+
+// $greet = function($name)
+// {
+//     return "Hello " . $name;
+// };
+
+// echo $greet("Ram");
+
+// $numbers = [1,2,3,4,5];
+
+// $result = array_map(function($n){
+//     return $n * 2;
+// },$numbers);
+
+
+// print_r($result);
+
+
+// $tax = 18;
+
+// $price_with_tax = function($price) use ($tax){
+//     return $price + ($price * $tax/100);
+// };
+
+// echo $price_with_tax(100);
+
+
+// $users = [
+//     [
+//         'id' => 1,
+//         'name' => 'Arpit',
+//         'email' => 'arpit@example.com',
+//         'age' => 25,
+//     ],
+//     [
+//         'id' => 2,
+//         'name' => 'Rahul',
+//         'email' => 'rahul@example.com',
+//         'age' => 17,
+//     ],
+//     [
+//         'id' => 3,
+//         'name' => 'Neha',
+//         'email' => 'neha@example.com',
+//         'age' => 30,
+//     ],
+//     [
+//         'id' => 4,
+//         'name' => 'Aman',
+//         'email' => 'aman@example.com',
+//         'age' => 16,
+//     ],
+// ];
+
+// $updated_array = array_map(function($user){
+//     return $user['email'];
+// },$users);
+
+// print_r($updated_array);
+
+
+
+// $users = [
+//     [
+//         'name' => 'Sonal',
+//         'age' => 22,
+//         'city' => 'Delhi',
+//     ],
+//     [
+//         'name' => 'Kunal',
+//         'age' => 18,
+//         'city' => 'Mumbai',
+//     ],
+//     [
+//         'name' => 'Pooja',
+//         'age' => 35,
+//         'city' => 'Pune',
+//     ],
+//     [
+//         'name' => 'Ravi',
+//         'age' => 16,
+//         'city' => 'Jaipur',
+//     ],
+// ];
+
+// $users_above_18 = array_filter($users,function($user){
+//     return $user['age'] > 18;
+// });
+
+// print_r($users_above_18);
+
+
+// Class Car{
+//     public $speed = 240;
+// }
+
+// $car = new Car();
+// echo $car->speed;
+
+
+# OOPS IN PHP
+
+// class Dog{
+//     public $name;
+//     public $breed;
+
+//     public function bark()
+//     {
+//         echo "Woof Woof!";
+//     }
+
+
+//     public function fetch()
+//     {
+//         echo "{$this->name} is Fetching!";
+//     }
+// }
+
+
+// $dog = new Dog();
+// $dog->name = "Bruno";
+// $dog->species = "German Shephard";
+
+// $dog->bark();
+// $dog->fetch();
+
+
+// // Abstraction
+
+// abstract class Shape
+// {
+//     abstract public function calculateArea(){};
+// }
+
+// class Circle extends Shape
+// {
+//     private $radius;
+
+//     public function __construct($radius)
+//     {
+//         $this->radius = $radius;
+//     }
+
+//     public function calculateArea()
+//     {
+//         echo 3.14 * pow($this->radius,2);
+//     }
+// }
+
+// class Rectangle extends Shape
+// {
+//     private $length;
+//     private $width;
+
+//     public function __construct($length,$width)
+//     {
+//         $this->length = $length;
+//         $this->width = $width;
+//     }
+
+//     public function calculateArea()
+//     {
+//         $area = 2 * ($this->length + $this->width)
+//     }
+// }
+
+
+# Encapsulation
+
+class Car
+{
+    private $model;
+    private $color;
+    private $fuel_level;
+
+    public function __construct($model,$color)
+    {
+        $this->model = $model;
+        $this->color = $color;
+        $this->fuel_level = 100;
+    }
+
+    public function get_color()
+    {
+        return $this->color;
+    }
+
+    // Public method to get the model of the car
+    public function getModel() {
+        return $this->model;
+    }
+
+    // Public method to get the fuel level of the car
+    public function getFuelLevel() {
+        return $this->fuelLevel;
+    }
+
+    // Public method to simulate driving, reducing fuel level
+    public function drive() {
+        // Simulate driving by reducing fuel level
+        $this->fuelLevel -= 10;
+        if ($this->fuelLevel < 0) {
+            $this->fuelLevel = 0; // Ensure fuel level doesn't go below 0
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// parent::__construc(arg) -> to call parent class methods and cosntructor method from child
+
+
+
+
+
+
+?> -->
