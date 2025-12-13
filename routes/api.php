@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\StoryController as V1StoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +23,7 @@ Route::get('/hello',function(){
 
 Route::prefix('v1')->group(function(){
     Route::apiResource('/stories',V1StoryController::class);
+    Route::apiResource('/posts',PostController::class);
 });
 
 
