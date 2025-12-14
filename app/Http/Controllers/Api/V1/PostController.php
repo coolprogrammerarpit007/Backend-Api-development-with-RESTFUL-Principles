@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Resources\PostResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +20,12 @@ class PostController extends Controller
     {
         try
         {
-            $data = Post::all();
+            // $data = Post::all();
+            // return response()->json(['status' => true,'msg' => 'All posts fetched successfully','data'=>$data],200);
+            // return $data;
+            // $data = PostResource::collection(Post::all());
+            $post_data = Post::with('user:id,name,email')->get();
+            $data = PostResource::collection($post_data);
             return response()->json(['status' => true,'msg' => 'All posts fetched successfully','data'=>$data],200);
         }
 
@@ -35,33 +42,35 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
 
         try
         {
-             $validated = Validator::make(
-            $request->all(),[
-                'title' => 'required|string|max:50',
-                'body' => 'required|string|max:150',
+        //      $validated = Validator::make(
+        //     $request->all(),[
+        //         'title' => 'required|string|max:50',
+        //         'body' => 'required|string|max:150',
 
-            ]);
+        //     ]);
 
-        if($validated->fails())
-        {
-            return response()->json([
-                'status' => false,
-                'msg' => "Validation Error Occurred!",
-                'errors' => $validated->errors()
-            ],422);
-        }
+        // if($validated->fails())
+        // {
+        //     return response()->json([
+        //         'status' => false,
+        //         'msg' => "Validation Error Occurred!",
+        //         'errors' => $validated->errors()
+        //     ],422);
+        // }
 
-        $validated = $validated->validate();
+        // $validated = $validated->validate();
+        $validated = $request->validated();
         $validated['author_id'] = 1;
 
         DB::beginTransaction();
 
         $new_data = Post::create($validated);
+        $new_data = new PostResource($new_data);
 
         DB::commit();
 
@@ -96,7 +105,7 @@ class PostController extends Controller
             return response()->json([
                 'status' => true,
                 'msg' => 'post fetched successfully',
-                'data' => $post
+                'data' => new PostResource($post)
             ]);
         }
 
@@ -124,7 +133,7 @@ class PostController extends Controller
             return response()->json([
                 'status' => true,
                 'msg' => 'Post data updated successfully',
-                'data' => $post
+                'data' => new PostResource($post)
             ]);
         }
 
