@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Post;
-
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -24,7 +24,10 @@ class PostController extends Controller
             // return response()->json(['status' => true,'msg' => 'All posts fetched successfully','data'=>$data],200);
             // return $data;
             // $data = PostResource::collection(Post::all());
-            $post_data = Post::with('user:id,name,email')->get();
+            // Getting Authenticated User
+            $author = Auth::user();
+            // $post_data = Post::with('user:id,name,email')->get();
+            $post_data = $author->posts()->with('user')->get();
             $data = PostResource::collection($post_data);
             return response()->json(['status' => true,'msg' => 'All posts fetched successfully','data'=>$data],200);
         }
@@ -65,7 +68,7 @@ class PostController extends Controller
 
         // $validated = $validated->validate();
         $validated = $request->validated();
-        $validated['author_id'] = 1;
+        $validated['author_id'] = Auth::user()->id;
 
         DB::beginTransaction();
 
@@ -102,6 +105,15 @@ class PostController extends Controller
     {
         try
         {
+
+            $user = Auth::user();
+            if($user->id != $post->author_id)
+            {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Forbidden Access'
+                ],403);
+            }
             return response()->json([
                 'status' => true,
                 'msg' => 'post fetched successfully',
@@ -124,6 +136,14 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        $user = Auth::user();
+            if($user->id != $post->author_id)
+            {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Forbidden Access'
+                ],403);
+            }
         try
         {
             DB::transaction(function () use ($post, $request){
@@ -152,6 +172,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $user = Auth::user();
+            if($user->id != $post->author_id)
+            {
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Forbidden Access'
+                ],403);
+            }
         try
         {
             $post->delete();

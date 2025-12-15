@@ -21,9 +21,10 @@ Route::get('/hello',function(){
 
 
 
-Route::prefix('v1')->group(function(){
+Route::middleware('auth:sanctum')->prefix('v1')->group(function(){
     Route::apiResource('/stories',V1StoryController::class);
     Route::apiResource('/posts',PostController::class);
 });
 
 
+require __DIR__.'/auth.php';
