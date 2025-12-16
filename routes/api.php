@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\ImageGenerationController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V1\StoryController as V1StoryController;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ Route::get('/hello',function(){
 Route::middleware(['auth:sanctum','throttle:api'])->prefix('v1')->group(function(){
     Route::apiResource('/stories',V1StoryController::class);
     Route::apiResource('/posts',PostController::class);
+    Route::apiResource('/image-generation',ImageGenerationController::class)->only(['index','store']);
 });
 
 
