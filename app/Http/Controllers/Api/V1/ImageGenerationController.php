@@ -53,28 +53,47 @@ class ImageGenerationController extends Controller
         return ImageGenerationResource::collection($imageGenerations);
     }
 
+
+
+
     public function store(GeneratePromptRequest $request)
     {
-        $user = $request->user();
-        $image = $request->file('image');
-        $originalName = $image->getClientOriginalName();
-        $sanitizedName = preg_replace('/[^a-zA-Z0-9._-]/', '_', pathinfo($originalName, PATHINFO_FILENAME)); // something.png -> something.png
-        $extension = $image->getClientOriginalExtension();
-        $safeFilename = $sanitizedName . '_' . Str::random(32) . '.' . $extension;
-        $imagePath = $image->storeAs('uploads/images', $safeFilename, 'public');
+        try
+        {
+            $user = $request->user();
+            $image = $request->file('image');
+            $originalImageName = $image->getClientOriginalName();
 
-        $generatedPrompt = $this->openAiService->generatePromptForImage($image);
+            // Sanitize Image File Name
+            $sanitized_name = preg_replace('/[^a-z0-9A-Z._-]/','_',pathinfo($originalImageName,PATHINFO_FILENAME));
 
-        $imageGeneration = $user->imageGenerations()->create([
-            'image_path' => $imagePath,
-            'generated_prompt' => $generatedPrompt,
-            'original_filename' => $originalName,
-            'file_size' => $image->getSize(),
-            'mime_type' => $image->getMimeType(),
-        ]);
+            $extention = $image->getClientOriginalExtension();
+            $safe_file_name = $sanitized_name . '_' . Str::random(32) . $extention;
 
-        return new ImageGenerationResource($imageGeneration);
+            // Storing Image into
+            $image_path = $image->storeAs('uploads/images',$safe_file_name,'public');
 
+            $generated_prompt = $this->openAiService->generatePromptForImage($image);
 
+            $image_generation = $user->imageGenerations()->create([
+                'image_path' => $image_path,
+                'generated_prompt' => $generated_prompt,
+                'original_file_name' => $originalImageName,
+                'file_size' => $image->getSize(),
+                'mime_type' => $image->getMimeType()
+            ]);
+
+            return new ImageGenerationResource($image_generation);
+
+        }
+
+        catch(\Exception $e)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'some error occur! please try again later',
+                'errors' => $e->getMessage()
+            ],500);
+        }
     }
 }
